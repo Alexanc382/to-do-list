@@ -1,13 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="./src/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List React without build</title>
+
+  <!-- React и ReactDOM через CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel Standalone для JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    body { font-family: 'Montserrat', sans-serif; background: #f0f0f0; }
+    .app { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; }
+    h1 { text-align: center; font-family: 'Libertinus Serif Display', serif; }
+    .input-style { width: 100%; padding: 8px; margin-bottom: 10px; }
+    ul { list-style: none; padding: 0; }
+    .listItem { padding: 5px 0; border-bottom: 1px solid #ccc; display: flex; align-items: center; }
+    .task { cursor: pointer; }
+    .task.completed { text-decoration: line-through; color: #999; }
+    .footer { display: flex; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; }
+    .footer-items-name { margin: 0 5px; cursor: pointer; }
+    .footer-items-name.active { font-weight: bold; text-decoration: underline; }
+    .custom-checkbox { display: flex; align-items: center; gap: 10px; }
+    input[type="checkbox"] { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function App() {
+      const [todos, setTodos] = useState([]);
+      const [input, setInput] = useState("");
+      const [filter, setFilter] = useState("all"); // all | active | completed
+
+      const addTodo = () => {
+        const text = input.trim();
+        if (!text) return;
+        setTodos([...todos, { id: Date.now(), text, completed: false }]);
+        setInput("");
+      };
+
+      const toggleTodo = (id) => {
+        setTodos(todos.map(todo =>
+          todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        ));
+      };
+
+      const clearCompleted = () => {
+        setTodos(todos.filter(todo => !todo.completed));
+      };
+
+      const remainingCount = todos.filter(todo => !todo.completed).length;
+
+      const filteredTodos = todos.filter(todo => {
+        if (filter === "active") return !todo.completed;
+        if (filter === "completed") return todo.completed;
+        return true;
+      });
+
+      return (
+        <div className="app">
+          <h1>todos</h1>
+          <input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && addTodo()}
+            placeholder="What needs to be done?"
+            className="input-style"
+          />
+          <ul>
+            {filteredTodos.map(todo => (
+              <li key={todo.id} className="listItem">
+                <label className="custom-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => toggleTodo(todo.id)}
+                  />
+                  <span
+                    onClick={() => toggleTodo(todo.id)}
+                    className={todo.completed ? "task completed" : "task"}
+                  >
+                    {todo.text}
+                  </span>
+                </label>
+              </li>
+            ))}
+          </ul>
+          <div className="footer">
+            <div>{remainingCount} items left</div>
+            <div>
+              <button
+                className={`footer-items-name ${filter === "all" ? "active" : ""}`}
+                onClick={() => setFilter("all")}
+              >
+                All
+              </button>
+              <button
+                className={`footer-items-name ${filter === "active" ? "active" : ""}`}
+                onClick={() => setFilter("active")}
+              >
+                Active
+              </button>
+              <button
+                className={`footer-items-name ${filter === "completed" ? "active" : ""}`}
+                onClick={() => setFilter("completed")}
+              >
+                Completed
+              </button>
+            </div>
+            <button className="footer-items-name" onClick={clearCompleted}>
+              Clear completed
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
 </html>
