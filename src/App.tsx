@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import type {Todo} from "./types.js";
 import "./App.scss";
-import { SpeedInsights } from '@vercel/speed-insights/react';
 
 
 const App: React.FC = () => {
