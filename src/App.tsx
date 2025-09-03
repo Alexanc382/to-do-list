@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import type {Todo} from "./types.js";
 import "./App.scss";
 
-
 const App: React.FC = () => {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [input, setInput] = useState("");
@@ -38,7 +37,6 @@ const App: React.FC = () => {
 
     return (
         <div className="app">
-            <SpeedInsights />
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Libertinus+Serif+Display&family=Montserrat:wght@100&display=swap');
             </style>
