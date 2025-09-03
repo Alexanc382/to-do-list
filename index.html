@@ -3,29 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>To-Do List React without build</title>
-
-  <!-- React и ReactDOM через CDN -->
+  <link href="src/App.css">
   <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-  <!-- Babel Standalone для JSX -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <style>
-    body { font-family: 'Montserrat', sans-serif; background: #f0f0f0; }
-    .app { max-width: 600px; margin: 50px auto; background: white; padding: 20px; border-radius: 8px; }
-    h1 { text-align: center; font-family: 'Libertinus Serif Display', serif; }
-    .input-style { width: 100%; padding: 8px; margin-bottom: 10px; }
-    ul { list-style: none; padding: 0; }
-    .listItem { padding: 5px 0; border-bottom: 1px solid #ccc; display: flex; align-items: center; }
-    .task { cursor: pointer; }
-    .task.completed { text-decoration: line-through; color: #999; }
-    .footer { display: flex; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; }
-    .footer-items-name { margin: 0 5px; cursor: pointer; }
-    .footer-items-name.active { font-weight: bold; text-decoration: underline; }
-    .custom-checkbox { display: flex; align-items: center; gap: 10px; }
-    input[type="checkbox"] { cursor: pointer; }
-  </style>
 </head>
 <body>
   <div id="root"></div>
